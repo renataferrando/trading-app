@@ -8,6 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  CarouselDots,
 } from "@/components/ui/carousel";
 import { PortfolioCard } from "@/components/ui/portfolio-card";
 import { getPortfoliosWithPnl } from "@/lib/portfolios";
@@ -51,6 +52,7 @@ const DashboardPage = async () => {
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
+        <CarouselDots />
       </Carousel>
     </PageWrapper>
   );

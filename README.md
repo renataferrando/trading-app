@@ -46,3 +46,11 @@ To seed your database with initial data, run the following command:
 npm run seed
 ```
 
+### Considerations (Not Implemented)
+
+- I would have used React Query to handle fetch calls and separate that logic from the components. 
+    - Extract the POST logic into a service (e.g. services/portfolios.ts).
+    - Wrap it in a React‑Query useMutation hook (so you get isLoading, isError, retries, automatic invalidation of your portfolios list, etc.)
+    - Call only your custom hook inside the component (keeping your components purely presentational + declarative).
+- Trades should integrate with an external API to fetch real-time prices and calculate profit or loss (current graphs display dummy data).
+- Adding new trades should append entries to the same portfolio and maintain a complete history of buy and sell actions for each stock.

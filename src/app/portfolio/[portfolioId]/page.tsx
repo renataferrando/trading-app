@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/prisma";
-import { TradesTable } from "@/components/ui/trades-table";
+import { TradesTable } from "@/components/trades-table";
 import { notFound } from "next/navigation";
 import PageWrapper from "@/components/page";
 import Header from "@/components/header";
-import { AddTradeButton } from "@/components/ui/add-trade-button";
+import { AddTradeButton } from "@/components/add-trade-button";
 import { getPortfolioById } from "@/lib/portfolios";
-import { DeletePortfolioButton } from "@/components/ui/delete-portfolio-button";
+import { DeletePortfolioButton } from "@/components/delete-portfolio-btn";
+import { PortfolioSummary } from "@/components/portfolio-summary";
 
 export default async function PortfolioPage({
   params,
@@ -38,10 +39,6 @@ export default async function PortfolioPage({
           navItems={[]}
           button={
             <div className="flex items-center gap-4">
-              <p>Initial Value: ${portfolio.initialValue.toLocaleString()}</p>
-              {portfolio.currentValue && (
-                <p>Current Value: ${portfolio.currentValue.toLocaleString()}</p>
-              )}
               <AddTradeButton portfolioId={portfolio.id} />
               <DeletePortfolioButton portfolioId={portfolio.id} />
             </div>
@@ -49,6 +46,12 @@ export default async function PortfolioPage({
         />
       }
     >
+      <PortfolioSummary
+        initialValue={portfolio.initialValue}
+        currentValue={portfolio.currentValue}
+        pnl={portfolio.pnl ?? []}
+        tradeDates={portfolio.tradeDates ?? []}
+      />
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Trades</h2>
         <TradesTable trades={tradesWithNumericPrices} />

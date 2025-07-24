@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 import { TradeForm } from "../forms/trade-form";
 import { TradeWithNumericPrices } from "@/lib/types";
 

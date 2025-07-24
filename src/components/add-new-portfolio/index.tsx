@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./button";
-import { Modal } from "./modal";
+import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 import { PortfolioForm } from "../forms/portfolio-form";
 
 export function AddNewPortfolio() {

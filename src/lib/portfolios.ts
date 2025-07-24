@@ -1,4 +1,3 @@
-// src/lib/portfolios.ts
 import { prisma } from "./prisma";
 import Decimal from "decimal.js";
 
@@ -9,6 +8,7 @@ export type PortfolioWithPnl = {
   tradeCount: number;
   pnl?: number[];
   currentValue?: number;
+  tradeDates?: Date[];
 };
 
 export async function getPortfolioById(

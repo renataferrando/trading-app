@@ -24,6 +24,7 @@ import {
 
 import { TradeForm } from "../forms/trade-form";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 
 ChartJS.register(
   CategoryScale,
@@ -41,12 +42,14 @@ export function PortfolioCard({
   initialValue,
   currentValue,
   pnl,
+  tradeDates = [],
 }: {
   portfolioId: number;
   name: string;
   initialValue: number;
   currentValue?: number;
   pnl: number[];
+  tradeDates?: Date[];
 }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -54,17 +57,23 @@ export function PortfolioCard({
     setIsSheetOpen(false);
   };
 
-  const totalPnl = pnl.reduce((acc, curr) => acc + curr, 0);
+  const last3Pnl = pnl.slice(-3);
+  const last3Dates = tradeDates.slice(-3);
+  const totalPnl = last3Pnl.length > 0 ? last3Pnl[last3Pnl.length - 1] : 0;
   const chartColor = totalPnl >= 0 ? "rgb(75, 192, 192)" : "rgb(255, 99, 132)";
   const chartBorderColor =
     totalPnl >= 0 ? "rgba(75, 192, 192, 0.2)" : "rgba(255, 99, 132, 0.2)";
+  const labels =
+    last3Dates.length === last3Pnl.length
+      ? last3Dates.map((date) => format(new Date(date), "MMM yyyy"))
+      : last3Pnl.map((_, i) => `Trade ${pnl.length - last3Pnl.length + i + 1}`);
 
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels,
     datasets: [
       {
         label: "P&L",
-        data: pnl,
+        data: last3Pnl,
         fill: false,
         backgroundColor: chartColor,
         borderColor: chartBorderColor,

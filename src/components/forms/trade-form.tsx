@@ -1,8 +1,8 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +19,8 @@ import { TradeWithNumericPrices } from "@/lib/types";
 import { DatePicker } from "../date-picker";
 import { tradeFormSchema } from "./schemas/trade-form";
 
+type FormValues = yup.InferType<typeof tradeFormSchema>;
+
 export function TradeForm({
   portfolioId,
   initialData,
@@ -29,8 +31,8 @@ export function TradeForm({
   onClose?: () => void;
 }) {
   const router = useRouter();
-  const form = useForm<z.infer<typeof tradeFormSchema>>({
-    resolver: zodResolver(tradeFormSchema),
+  const form = useForm<FormValues>({
+    resolver: yupResolver(tradeFormSchema),
     defaultValues: {
       ticker: initialData?.ticker || "",
       entryPrice: initialData?.entryPrice || 0,
@@ -40,7 +42,7 @@ export function TradeForm({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof tradeFormSchema>) {
+  const onSubmit: SubmitHandler<FormValues> = async (values) => {
     try {
       const url = initialData
         ? `/api/portfolios/${portfolioId}/trades/${initialData.id}`
@@ -69,7 +71,7 @@ export function TradeForm({
     } catch (error) {
       toast.error("Something went wrong");
     }
-  }
+  };
 
   async function onDelete() {
     try {
@@ -119,12 +121,7 @@ export function TradeForm({
             <FormItem>
               <FormLabel>Entry Price</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="e.g. 150.00"
-                  {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                />
+                <Input type="number" placeholder="e.g. 150.00" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -137,12 +134,7 @@ export function TradeForm({
             <FormItem>
               <FormLabel>Exit Price</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="e.g. 175.00"
-                  {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                />
+                <Input type="number" placeholder="e.g. 175.00" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,12 +147,7 @@ export function TradeForm({
             <FormItem>
               <FormLabel>Quantity</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="e.g. 10"
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
-                />
+                <Input type="number" placeholder="e.g. 10" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

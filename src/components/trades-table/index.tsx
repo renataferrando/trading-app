@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,12 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./button";
-import { TradeForm } from "../forms/trade-form";
+
 import { TradeWithNumericPrices } from "@/lib/types";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { EditTradeSheet } from "./edit-trade-sheet";
+import { EditTradeSheet } from "@/components/edit-trade-sheet";
 
 export function TradesTable({ trades }: { trades: TradeWithNumericPrices[] }) {
   return (
